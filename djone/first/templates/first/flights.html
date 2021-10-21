@@ -1,0 +1,10 @@
+<html>
+<head><title>flights</title></head>
+<body>
+<h1> flights </h1> 
+{% for flight in Flights %}
+<li> flight {{flight.id}} : {{ flight.origin }}</li>
+
+{% endfor %}
+</body>
+</html>
