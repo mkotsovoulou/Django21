@@ -10,3 +10,9 @@ def index(request):
     return render(request, "tasks/index.html", {
         "tasklist" : tasks
     })
+
+def add(request):
+    return  render(request, "tasks/add.html")
+
+def contactus(request):
+    return render(request, "tasks/contactus.html")
