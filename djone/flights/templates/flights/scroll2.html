@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>My Webpage</title>
+    <style>
+        .post {
+            background-color: #77dd11;
+            padding: 20px;
+            margin: 10px;
+        }
+
+        body {
+            padding-bottom: 50px;
+        }
+    </style>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  
+  <script>
+
+        // Start with first post
+        let counter = 1;
+
+        // Load posts 20 at a time
+        const quantity = 20;
+
+        // When DOM loads, render the first 20 posts
+        $(function () { load()});
+
+        // document.addEventListener('DOMContentLoaded', load);
+
+        // If scrolled to bottom, load the next 20 posts
+        // window.onscroll = () => {
+        //     if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+        //         load();
+        //     }
+        // };
+
+
+        $(window).scroll(function () {
+                if ($(document).height() - $(this).height() == $(this).scrollTop()) {
+                        load();
+                }
+            });
+
+        // Load next set of posts
+        function load() {
+
+            // Set start and end post numbers, and update counter
+            const start = counter;
+            const end = start + quantity - 1;
+            counter = end + 1;
+
+            // Get new posts and add posts
+            // fetch(`/flights/posts?start=${start}&end=${end}`)
+            //     .then(response => response.json())
+            //     .then(data => {
+            //         data.posts.forEach(add_post);
+            //     })
+
+            $.ajax({
+                url: `/flights/posts?start=${start}&end=${end}`, 
+                type: "GET", 
+                success: function(data) {
+                    //data.posts.forEach(add_post);
+                    $.each(data.posts, function (index, element) {
+                          add_post(element) 
+                        });
+                }
+
+           });
+        }
+        // Add a new post with given contents to DOM
+        function add_post(contents) {
+
+            // Create new post
+            var post = $('<div></div>');
+            post.addClass('post');
+            post.html(contents);
+
+            // Add post to DOM
+            $('#posts').append(post);
+        }
+    </script>
+</head>
+
+<body>
+    <div id="posts">
+    </div>
+</body>
+
+</html>

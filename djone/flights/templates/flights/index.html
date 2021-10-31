@@ -1,0 +1,33 @@
+{% extends "flights/layout.html" %}
+
+{% block body %}
+
+<h1>Welcome, {{ request.user.first_name }}</h1>
+
+<ul>
+    <li>Username: {{ request.user.username }}</li>
+    <li>Email: {{ request.user.email }}</li>
+</ul>
+
+<h1> Flights</h1>
+<ul>
+{% for flight in flights %}
+    <a href="{% url 'flight' flight.id %}"> 
+    <li> Flight {{ flight.id }}: {{ flight.origin  }} to {{flight.destination}}</li> </a>
+    {% endfor %}
+</ul>
+
+
+<h1> People</h1>
+<ul>
+    {% for person in passengers %}
+        <li> Person {{ person.id }}: {{ person.last }} {{person.first}}</li>
+        <img src="{{person.avatar.url}}">
+    {% endfor %}
+</ul>
+
+<button onclick="location.href='{% url "add" %}' "> Add People</button>
+
+<hr>
+<a href="{% url 'logout' %}">Log Out</a>
+{% endblock %}
