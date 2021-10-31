@@ -1,9 +1,15 @@
 {% extends "tasks\layout.html" %}
 
 {% block main %}
-<h1> Add Task </h1>
-<form>
-<input type="text" name="task">
-<input type="submit">
-</form>
+ <h1> Add Task</h1>
+    <!-- CSRF Validation is installed by default in Django Middleware-->
+    <form action="{% url 'tasks:add' %}" method="POST"> <!-- POST data to add url-->
+     
+        {% csrf_token %}   <!-- add a token for verifcation -->
+        
+        {{ form }}
+        
+        <input type="submit"/>
+
+    </form>
 {% endblock %}
