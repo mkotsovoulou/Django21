@@ -4,6 +4,7 @@ django
 gunicorn
 django-heroku
 requests
+pillow
 
 # Sub-dependencies of bob-builder.
 boto==2.49.0
