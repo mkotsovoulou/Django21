@@ -4,6 +4,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django import forms
 from django.urls import reverse
+from .models import Task
 
 #global variables
 #tasks = ["Cook", "Study", "Clean my Room", "Wash the Car", "Go to the supermarket"]
@@ -30,7 +31,8 @@ def index(request):
         request.session["tasks"] = []
     return render(request, "tasks/index.html", {
         # error no such table: django_session, so we need to
-        "tasks": request.session["tasks"],
+        "tasks": Task.objects.all(),
+        #"tasks": request.session["tasks"],
         # create a default table in the database,
         # using the command in the prompt: python manage.py migrate
         "devname": devname
@@ -49,7 +51,9 @@ def add(request):
         form = NewTaskForm(request.POST)  # save all data in a variable
         if form.is_valid():  # if form is valid (Server side validation)
             task = form.cleaned_data["task"]  # take all the data from the form
-            request.session["tasks"] += [task]  # append the data into the list
+            #request.session["tasks"] += [task]  # append the data into the list
+            t = Task(taskname=task)
+            t.save()
             return HttpResponseRedirect(reverse("tasks:index"))
         else:
             return render(request, "tasks/add.html", {
